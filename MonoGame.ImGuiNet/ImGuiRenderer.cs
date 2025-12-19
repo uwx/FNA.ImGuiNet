@@ -163,6 +163,7 @@ public class ImGuiRenderer : IDisposable
 
             ImGui.GetIO().AddInputCharacter(c);
         };
+        TextInputEXT.StartTextInput();
         ///////////////////////////////////////////
     }
 
