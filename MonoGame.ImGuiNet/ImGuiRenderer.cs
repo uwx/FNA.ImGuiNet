@@ -10,7 +10,7 @@ using System.Reflection;
 
 namespace MonoGame.ImGuiNet;
 
-public class ImGuiRenderer
+public class ImGuiRenderer : IDisposable
 {
     private Game _game;
 
@@ -147,11 +147,12 @@ public class ImGuiRenderer
         var io = ImGui.GetIO();
 
         // MonoGame-specific //////////////////////
-        _game.Window.TextInput += (s, a) =>
-        {
-            if (a.Character == '\t') return;
-            io.AddInputCharacter(a.Character);
-        };
+        // TODO: Hook into GameWindow events for text input
+        // _game.Window.TextInput += (s, a) =>
+        // {
+        //     if (a.Character == '\t') return;
+        //     io.AddInputCharacter(a.Character);
+        // };
 
         ///////////////////////////////////////////
 
@@ -204,10 +205,10 @@ public class ImGuiRenderer
         io.AddMouseButtonEvent(4, mouse.XButton2 == ButtonState.Pressed);
 
         io.AddMouseWheelEvent(
-            (mouse.HorizontalScrollWheelValue - _horizontalScrollWheelValue) / WHEEL_DELTA,
+            0,
             (mouse.ScrollWheelValue - _scrollWheelValue) / WHEEL_DELTA);
         _scrollWheelValue = mouse.ScrollWheelValue;
-        _horizontalScrollWheelValue = mouse.HorizontalScrollWheelValue;
+        _horizontalScrollWheelValue = 0;
 
         foreach (var key in _allKeys)
         {
@@ -423,4 +424,16 @@ public class ImGuiRenderer
     }
 
     #endregion Internals
+
+    public void Dispose()
+    {
+        _effect?.Dispose();
+        _rasterizerState?.Dispose();
+        _vertexBuffer?.Dispose();
+        _indexBuffer?.Dispose();
+        foreach (var texture in _loadedTextures.Values)
+        {
+            texture.Dispose();
+        }
+    }
 }
