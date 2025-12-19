@@ -157,12 +157,12 @@ public class ImGuiRenderer : IDisposable
         ///////////////////////////////////////////
 
         // FNA-specific ///////////////////////////
-        //TextInputEXT.TextInput += c =>
-        //{
-        //    if (c == '\t') return;
+        TextInputEXT.TextInput += c =>
+        {
+            if (c == '\t') return;
 
-        //    ImGui.GetIO().AddInputCharacter(c);
-        //};
+            ImGui.GetIO().AddInputCharacter(c);
+        };
         ///////////////////////////////////////////
     }
 
