@@ -118,7 +118,7 @@ public class ImGuiRenderer : IDisposable
     /// </summary>
     public virtual void BeginLayout(GameTime gameTime)
     {
-        ImGui.GetIO().DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+        ImGui.GetIO().DeltaTime = Math.Max((float)gameTime.ElapsedGameTime.TotalSeconds, 0.0001f);
 
         UpdateInput();
 
